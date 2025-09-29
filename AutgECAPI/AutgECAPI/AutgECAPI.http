@@ -1,0 +1,6 @@
+@AutgECAPI_HostAddress = http://localhost:5259
+
+GET {{AutgECAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

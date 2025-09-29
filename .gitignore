@@ -1,0 +1,16 @@
+# Git ignore file 
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# Build
+bin/
+obj/
+out/
+
+# Node / Angular
+node_modules/
+dist/
