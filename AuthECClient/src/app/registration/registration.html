@@ -5,6 +5,9 @@
     <div class="mb-3">
         <input type="text" class="form-control bg-body-secondary" 
         placeholder="Full Name" formControlName="fullName">
+        <div class="error-feedback" *ngIf="form.controls.fullName.hasError('required')">
+            <p>Please enter your full name.</p>
+        </div>
     </div>
     <div class="mb-3">
         <input type="text" class="form-control bg-body-secondary" 
