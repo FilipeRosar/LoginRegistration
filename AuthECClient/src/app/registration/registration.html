@@ -5,22 +5,46 @@
     <div class="mb-3">
         <input type="text" class="form-control bg-body-secondary" 
         placeholder="Full Name" formControlName="fullName">
-        <div class="error-feedback" *ngIf="form.controls.fullName.hasError('required')">
+        <div class="error-feedback" *ngIf="hasDisplayError('fullName') &&form.get('fullName')?.hasError('required')">
             <p>Please enter your full name.</p>
         </div>
     </div>
     <div class="mb-3">
         <input type="text" class="form-control bg-body-secondary" 
         placeholder="Email" formControlName="email">
+        <div class="error-feedback" 
+            *ngIf="hasDisplayError('email') && form.get('fullName')?.hasError('required')">
+            <div *ngIf="form.get('email')?.hasError('required')">
+                <p>Please enter your email address.</p>
+            </div>
+             <div *ngIf="form.get('email')?.hasError('email')">
+                <p>Please enter a valid email address.</p>
+            </div>
+        </div>
     </div>
+        
     <div class="mb-3">
         <input type="text" class="form-control bg-body-secondary" 
         placeholder="Password" formControlName="password">
+        <div class="error-feedback" *ngIf="hasDisplayError('password')">
+            <ng-container [ngSwitch]="form.get('password')?.errors | firstKey">
+                <p *ngSwitchCase="'required'">Please enter your password.</p>
+                <p *ngSwitchCase="'minlength'">At least 8 characters required.</p>
+                <p *ngSwitchCase="'pattern'">One or more special character required.</p>
+            </ng-container>
+</div>
+
     </div>
+
     <div class="mb-3">
         <input type="text" class="form-control bg-body-secondary" 
         placeholder="Confirm Password" formControlName="confirmPassword">
+
+        <div class="error-feedback" *ngIf="hasDisplayError('confirmPassword') && form.get('confirmPassword')?.hasError('passwordMismatch')">
+            <p>Password doesn't match. </p>
+        </div>
     </div>
+
     <div class="mt-4">
         <button type="submit" class="btn btn-success w-100 rounded-3">Register</button>
     </div>

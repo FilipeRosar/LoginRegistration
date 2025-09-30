@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { 
   AbstractControl, 
@@ -8,11 +9,12 @@ import {
   ValidatorFn, 
   Validators 
 } from '@angular/forms';
+import { FirstKeyPipe } from '../shared/pipes/first-key-pipe';
 
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FirstKeyPipe],
   templateUrl: './registration.html',
   styles: ``
 })
@@ -30,9 +32,10 @@ export class Registration {
   };
 
   form: FormGroup;
-
-  constructor(public formBuilder: FormBuilder) {
+  isSubmitted:Boolean = false;
+    constructor(public formBuilder: FormBuilder) {
     this.form = this.formBuilder.group(
+      
       {
         fullName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
@@ -51,11 +54,17 @@ export class Registration {
   }
 
   onSubmit() {
+    this.isSubmitted = true;
     if (this.form.valid) {
       console.log('✅ Dados enviados:', this.form.value);
     } else {
       console.log('❌ Form inválido');
       this.form.markAllAsTouched();
     }
+  }
+  hasDisplayError(controlName: string): Boolean{
+    const control = this.form.get(controlName);
+    return Boolean(control?.invalid) &&
+    (this.isSubmitted || Boolean(control?.touched))
   }
 }
